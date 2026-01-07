@@ -1,8 +1,9 @@
 
 import java.util.Scanner;
 
-
-public class Beakjoon2675 {
+// 문자열 반복
+// https://www.acmicpc.net/problem/2675
+public class Baekjoon2675 {
 
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
