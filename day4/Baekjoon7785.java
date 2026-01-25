@@ -5,6 +5,10 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.TreeSet;
 
+
+// [집합과 맵]
+// 회사에 있는 사람
+// https://www.acmicpc.net/problem/7785
 public class Baekjoon7785 {
 
     public static void main(String[] args) throws IOException{
