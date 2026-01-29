@@ -1,13 +1,15 @@
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
-
-// version 1 ... 다시 작성 예정
 class MyLinkedList {
+
     private static class Node {
+
         int val;
         Node next;
-        Node(int val) { this.val = val; }
+
+        Node(int val) {
+            this.val = val;
+        }
     }
 
     private Node head;
@@ -16,88 +18,108 @@ class MyLinkedList {
 
     public void addFirst(int x) {
         Node newNode = new Node(x);
-        
-        if (Objects.isNull(head)) {
+
+        if (head == null) {
+
+            // IMPROVED
+            assert tail == null : "Invariant broken: head==null but tail!=null"; // 불변식 체크
+
             head = newNode;
-            if (!Objects.isNull(tail)) {
-                head.next = tail;
-            }
+//            if (tail == null) {
+//                tail = newNode;
+//            } else {
+            // 이런 상황은 없다고 가정
+            // head가 null 이면 tail도 늘 null이어야함
+//            }
+            // IMPROVED
+            tail = newNode;
         } else {
+            // head is not null
             newNode.next = head;
             head = newNode;
         }
 
-        
-        
-        size ++;
+        size++;
+
     }
 
     public void addLast(int x) {
         Node newNode = new Node(x);
 
-        if (Objects.isNull(tail)) {
+        if (tail == null) {
+            // IMPROVED
+            assert head == null : "Invariant broken: tail==null but head!=null"; // 불변식 체크
+
             tail = newNode;
-            if (Objects.isNull(head)) {
-                head = newNode;
-            } else {
-                Node prevNode = head;
-                while (true) {
-                    if (prevNode.next == null) {
-                        break;
-                    }
-                    prevNode = prevNode.next;
-                }
-
-                prevNode.next = tail;
-            }
-
+//            if (head == null) {
+//                head = newNode;
+//            } else {
+//                // 이런 상황은 없다고 가정
+//                // head가 null 이면 tail도 늘 null이어야함
+//            }
+            // IMPROVED
+            head = newNode;
         } else {
+            // tail is not null
             tail.next = newNode;
             tail = newNode;
         }
-        
-        size ++;
+        size++;
     }
 
     public int removeFirst() {
-        
-        if (Objects.isNull(head)) {
+//        if (size == 0 || head == null) {
+        // IMPROVED
+        if (size == 0) {
             throw new NoSuchElementException();
         }
-        int firstNodeVal = head.val;
-        head = head.next;
 
-        size --;
-
-        return firstNodeVal;
-    }
-
-    public int removeLast() {
-
-        if (Objects.isNull(tail)) {
-            throw new NoSuchElementException();
-        }
-        int lastNodeVal = tail.val;
-
-        Node prev = head;
+        int target = head.val;
 
         if (head == tail) {
             head = null;
             tail = null;
-        } else {
-            while (true) {
-                if (prev.next == tail) {
-                    break;
-                }
-                prev = prev.next;
-            }
-
-            tail = prev;
-            tail.next = null;
+            size--;
+            return target;
         }
-        size --;
-        
-        return lastNodeVal;
+
+        head = head.next;
+
+        size--;
+
+        return target;
+    }
+
+    public int removeLast() {
+//       if (size == 0 || tail == null) {
+        // IMPROVED
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+
+        int target = tail.val;
+
+        if (head == tail) {
+            head = null;
+            tail = null;
+            size--;
+            return target;
+        }
+        Node prev = head;
+        while (true) {
+            // if (prev.next != null && prev.next == tail) {
+            // IMPROVED
+            if (prev.next == tail) {
+                break;
+            }
+            prev = prev.next;
+        }
+
+        tail = prev;
+        tail.next = null;
+        size--;
+
+        return target;
     }
 
     public int get(int index) {
@@ -105,21 +127,23 @@ class MyLinkedList {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-
         int count = 0;
-        int val;
-        Node temp = head;
+//        int target = 0;
+        // IMPROVED
+        int target;
+        Node prev = head;
+        while (true) {
 
-        while (true) { 
-            if (count == index) {
-                val = temp.val;
+            if (index == count) {
+                target = prev.val;
                 break;
             }
-            temp = temp.next;
-            count ++;
+
+            count++;
+            prev = prev.next;
         }
 
-        return val;
+        return target;
     }
 
     public int size() {
