@@ -2,7 +2,7 @@ import java.util.NoSuchElementException;
 
 class MyLinkedList {
 
-    private static class Node {
+    public static class Node {
 
         int val;
         Node next;
