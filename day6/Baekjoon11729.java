@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 // 하노이 탑 이동 순서
 // https://www.acmicpc.net/problem/11729
 public class Baekjoon11729 {
+    // 설명 잘 해둔 블로그: https://st-lab.tistory.com/96
 
     static int count;
     public static void main(String[] args) throws IOException{
