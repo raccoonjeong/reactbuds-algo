@@ -3,9 +3,10 @@ package recursion_practice;
 import java.io.*;
 import java.util.*;
 
-public class Combination {
+public class Permutation {
     static int N, M;
     static int[] out;
+    static boolean[] visit;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws Exception {
@@ -15,34 +16,36 @@ public class Combination {
         M = Integer.parseInt(st.nextToken());
 
         out = new int[M];
-        comb(1, 0);
+        visit = new boolean[N + 1]; // 1..N
+
+        perm(0);
 
         System.out.print(sb.toString());
     }
 
-    static void comb(int start, int depth) {
-        
-        // input : 4 2
-        // 1 2
-        // 1 3
-        // 1 4
-        // 2 3
-        // 2 4
-        // 3 4
-        
+    static void perm(int depth) {
+        // TODO: if depth == M -> print
         if (depth == M) {
             printOut();
             return;
         }
 
-        for (int i = start; i < N; i ++) {
-            out[depth] = i;
-            comb(i + 1, depth + 1);
-        }
-
-        // TODO: for i from start to N:
+        // TODO: for i in 1..N:
+        //          if visit[i] continue
+        //          visit[i] = true
         //          out[depth] = i
-        //          comb(i + 1, depth + 1)
+        //          perm(depth + 1)
+        //          visit[i] = false  // undo
+        for (int i = 1; i <= N; i++) {
+            if (visit[i]) {
+                continue;
+            }
+            // if false
+            visit[i] = true;
+            out[depth] = i;
+            perm(depth + 1);
+            visit[i] = false;
+        }
     }
 
     static void printOut() {
